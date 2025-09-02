@@ -17,8 +17,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://get.docker.com | sh
 
 # Install kubectl (ARM64 binary)
-RUN curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" \
-    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+RUN KUBE_VERSION=$(curl -s https://dl.k8s.io/release/stable.txt) && \
+    curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/arm64/kubectl" && \
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Install Helm (universal installer)
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
